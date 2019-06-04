@@ -30,11 +30,15 @@ private:
 	void Save(int Value, std::string name);
 	void Save(float Value, std::string name);
 	void Save(std::string Value, std::string name);
+	void Save(float* Value, int size, std::string name);
+	void Save(int* Value, int size, std::string name);
 
 	void Load(bool& Value, std::string name);
 	void Load(int& Value, std::string name);
 	void Load(float& Value, std::string name);
 	void Load(std::string& Value, std::string name);
+	void Load(float* Value, int size, std::string name);
+	void Load(int* Value, int size, std::string name);
 
 	std::string Parse(std::string szBefore, std::string szAfter);
 	void ReadFile();

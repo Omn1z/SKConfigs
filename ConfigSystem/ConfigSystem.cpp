@@ -7,7 +7,7 @@ int main()
 {
     std::cout << "Hello World!\n"; 
 	SKConfigs::Get().Inizialize(SKConfigFilePathType::HWID_PATH);
-	//SKConfigs::Get().Handle(SKConfigHandle::SAVE_CONFIG);
+	SKConfigs::Get().Handle(SKConfigHandle::SAVE_CONFIG);
 	SKConfigs::Get().Handle(SKConfigHandle::LOAD_CONFIG);
 
 	//SKConfigs::Get().Handle(SKConfigHandle::SAVE_CONFIG);

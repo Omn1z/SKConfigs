@@ -45,13 +45,14 @@ void SKConfigs::Handle(SKConfigHandle request)
 	};
 }
 
+float Test[50];
 void SKConfigs::SaveSettings() {
-	//Save(Var, "Var");
+	Save(Test, ARRAYSIZE(Test),  "Test");
 	this->WriteFile();
 }
 void SKConfigs::LoadSettings() {
 	this->ReadFile();
-	//Load(Var, "Var");
+	Load(Test, ARRAYSIZE(Test), "Test");
 }
 
 
@@ -78,7 +79,7 @@ void SKConfigs::Load(float& Value, std::string name) {
 	auto result = this->Parse(Before, After_);
 	if (result == "")
 		return;
-	Value = atof(result.c_str());
+	Value = (float)atof(result.c_str());
 }
 void SKConfigs::Load(std::string& Value, std::string name) {
 	std::string Before = "<" + name + ">";
@@ -88,7 +89,28 @@ void SKConfigs::Load(std::string& Value, std::string name) {
 		return;
 	Value = result;
 }
-
+void SKConfigs::Load(float* Value, int size, std::string name) {
+	for (int i = 0; i < size; i++)
+	{
+		std::string Before = "<" + name + "_" + std::to_string(i) + ">";
+		std::string After_ = "</" + name + "_" + std::to_string(i) + ">";
+		auto result = this->Parse(Before, After_);
+		if (result == "")
+			continue;
+		Value[i] = (float)atof(result.c_str());
+	}
+}
+void SKConfigs::Load(int* Value, int size, std::string name) {
+	for (int i = 0; i < size; i++)
+	{
+		std::string Before = "<" + name + "_" + std::to_string(i) + ">";
+		std::string After_ = "</" + name + "_" + std::to_string(i) + ">";
+		auto result = this->Parse(Before, After_);
+		if (result == "")
+			continue;
+		Value[i] = atoi(result.c_str());
+	}
+}
 
 void SKConfigs::Save(bool Value, std::string name){
 	this->SKConfig += "<" + name + ">";
@@ -110,8 +132,22 @@ void SKConfigs::Save(std::string Value, std::string name){
 	this->SKConfig += Value;
 	this->SKConfig += "</" + name + ">\n";
 }
-
-
+void SKConfigs::Save(float* Value, int size, std::string name) {
+	for (int i = 0; i < size; i++)
+	{
+		this->SKConfig += "<" + name + "_" + std::to_string(i) +  ">";
+		this->SKConfig += std::to_string(Value[i]);
+		this->SKConfig += "</" + name + "_" + std::to_string(i) + ">\n";
+	}
+}
+void SKConfigs::Save(int* Value, int size, std::string name) {
+	for (int i = 0; i < size; i++)
+	{
+		this->SKConfig += "<" + name + "_" + std::to_string(i) + ">";
+		this->SKConfig += std::to_string(Value[i]);
+		this->SKConfig += "</" + name + "_" + std::to_string(i) + ">\n";
+	}
+}
 
 
 std::string SKConfigs::Parse(std::string szBefore, std::string szAfter)
