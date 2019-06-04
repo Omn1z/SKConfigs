@@ -1,0 +1,2 @@
+# SKConfigs
+Simple Config System
